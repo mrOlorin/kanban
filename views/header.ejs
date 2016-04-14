@@ -1,0 +1,61 @@
+<header>
+    <div data-toaster-container></div>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Kanban</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li data-ng-class="getMenuClass('/')"><a href="/">Home</a></li>
+                    <% if(!req.session.me) {%>
+                    <li data-ng-class="getMenuClass('/signup')"><a href="/signup">Signup</a></li>
+                    <% } %> 
+                </ul>
+                <div data-ng-controller="UserController" >
+                    <% if(!req.session.me) {%>
+                    <form data-ng-submit="submitLoginForm()" class="navbar-form navbar-right">
+                        <div class="form-group">
+                            <input data-ng-model="loginForm.email" 
+                                   name="email"
+                                   class="form-control"
+                                   type="email" 
+                                   placeholder="Email" 
+                                   required>
+                        </div>
+                        <div class="form-group">
+                            <input data-ng-model="loginForm.password" 
+                                   name="password" 
+                                   class="form-control"
+                                   type="password" 
+                                   placeholder="Password" 
+                                   required>
+                        </div>
+                        <button type="submit" class="btn btn-primary ">
+                            <span data-ng-show="!loginForm.loading">Sign in</span>
+                            <span data-ng-show="loginForm.loading" class="fa fa-spinner"></span>
+                            <span data-ng-show="loginForm.loading">Signing up...</span>
+                        </button>
+                        <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+                    </form>
+                    <% } else { %> 
+                    <form data-ng-submit="submitLogoutForm()" class="navbar-form navbar-right">
+                        <button type="submit" class="btn btn-default">
+                            <span data-ng-show="!loginForm.loading">Logout</span>
+                            <span data-ng-show="loginForm.loading" class="fa fa-spinner"></span>
+                            <span data-ng-show="loginForm.loading">Logging out...</span>
+                            <input type="hidden" class="btn btn-primary btn-lg btn-block" name="_csrf" value="<%= _csrf %>" />
+                        </button>
+                    </form>
+                    <% } %> 
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

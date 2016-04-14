@@ -1,0 +1,99 @@
+<div class="nestedDemo">
+<!-- Markup for lists inside the dropzone. It's inside a seperate template
+     because it will be used recursively. The dnd-list directive enables
+     to drop elements into the referenced array. The dnd-draggable directive
+     makes an element draggable and will transfer the object that was
+     assigned to it. If an element was dragged away, you have to remove
+     it from the original list yourself using the dnd-moved attribute -->
+<script type="text/ng-template" id="list.html">
+    <ul dnd-list="list">
+        <li ng-repeat="item in list"
+            dnd-draggable="item"
+            dnd-effect-allowed="move"
+            dnd-moved="list.splice($index, 1)"
+            dnd-selected="models.selected = item"
+            ng-class="{selected: models.selected === item}"
+            ng-include="item.type + '.html'">
+        </li>
+    </ul>
+</script>
+
+<!-- This template is responsible for rendering a container element. It uses
+     the above list template to render each container column -->
+<script type="text/ng-template" id="container.html">
+    <div class="container-element box box-blue">
+        <h3 contenteditable
+          ng-model="item.text"
+          ng-maxlength=255
+          ng-minlength=0
+          only-text="true"
+          ng-value="item.text"></h3>
+        <div ng-repeat="list in item.items" ng-include="'list.html'"></div>
+        <div class="clearfix"></div>
+    </div>
+</script>
+
+<!-- Template for a normal list item -->
+<script type="text/ng-template" id="item.html">
+    <div class="item" 
+        contenteditable
+        ng-model="item.text"
+        ng-maxlength=255
+        ng-minlength=0
+        only-text="true"
+        convert-new-lines="true"
+        ng-value="item.text">
+    </div>
+</script>
+
+<!-- Main area with dropzones and source code -->
+<div class="col-md-10">
+    <div class="row">
+        <div data-ng-repeat="(zone, list) in models.dropzones">
+            <div class="dropzone box box-yellow">
+                <!-- The dropzone also uses the list template -->
+                <h3>{{zone}}</h3>
+                <div data-ng-include="'list.html'"></div>
+            </div>
+        </div>
+    </div>
+
+    <div data-view-source="nested"></div>
+<h2>Generated Model</h2>
+    <pre>{{modelAsJson}}</pre>
+</div>
+
+<!-- Sidebar -->
+<div class="col-md-2">
+
+    <div class="toolbox box box-grey box-padding">
+        <h3>New Elements</h3>
+        <ul>
+            <!-- The toolbox only allows to copy objects, not move it. After a new
+                 element was created, dnd-copied is invoked and we generate the next id -->
+            <li data-ng-repeat="item in models.templates"
+                data-dnd-draggable="item"
+                data-dnd-effect-allowed="copy"
+                data-dnd-copied="item.text = ''"
+                >
+                <button type="button" class="btn btn-default btn-lg">{{item.type}}</button>
+            </li>
+        </ul>
+    </div>
+
+    <!--<div ng-if="models.selected" class="box box-grey box-padding">
+        <h3>Selected</h3>
+        <strong>Type: </strong> {{models.selected.type}}<br>
+        <input type="text" data-ng-model="models.selected.text" class="form-control" style="margin-top: 5px" />
+    </div>-->
+
+    <div class="trashcan box box-grey box-padding">
+        <!-- If you use [] as referenced list, the dropped elements will be lost -->
+        <h3>Trashcan</h3>
+        <ul data-dnd-list="[]">
+            <li><img src="/images/trashcan.jpg" alt="Trashcan"></li>
+        </ul>
+    </div>
+
+</div>
+</div>

@@ -1,0 +1,46 @@
+<form data-ng-controller="UserController" data-ng-submit="submitSignupForm()" name="signup" class="form-signin">
+    <h2 class="form-signin-heading">Create an account</h2>
+    <div class="row">
+        <div class="control-group form-group col-md-6"
+             data-ng-class="{'has-error':signup.email.$invalid && signup.email.$dirty}">
+            <label>Your email address</label>
+            <input data-ng-model="signupForm.email"
+                   name="email"
+                   type="email"
+                   class="form-control"
+                   placeholder="jon@winterfell.net"
+                   required>
+            <span data-ng-if="signup.email.$dirty" class="help-block has-error" >
+                <span data-ng-show="signup.email.$error.required">Email address is required.</span>
+                <span data-ng-show="signup.email.$error.email">Not a valid email address.</span>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="control-group form-group col-md-6"
+             data-ng-class="{'has-error':signup.password.$invalid && signup.password.$dirty}">
+            <label>Choose a password</label>
+            <input data-ng-model="signupForm.password" data-ng-minlength="3"
+                   name="password"
+                   type="password"
+                   class="form-control"
+                   placeholder="at least 6 characters"
+                   required >
+            <span class="help-block has-error" data-ng-if="signup.email.$dirty">
+                <span data-ng-show="signup.password.$error.required">Password is required.</span>
+                <span data-ng-show="signup.password.$error.minlength">Password must be at least 3 characters.</span>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="control-group form-group col-md-6">
+            <button data-ng-disabled="signup.$invalid" class="btn btn-primary btn-lg btn-block" type="submit" >
+                <span data-ng-show="!signupForm.loading">Create Account</span>
+                <span data-ng-show="signupForm.loading" 
+                      class="overlord-loading-spinner fa fa-spinner"></span>
+                <span data-ng-show="signupForm.loading">Preparing your new account...</span>
+            </button>
+        </div>
+    </div>
+    <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+</form>

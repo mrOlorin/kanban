@@ -1,0 +1,75 @@
+<div data-ng-controller="KanbanController" data-ng-hide="!pageIsInitialized" class="nestedDemo">
+    <script type="text/ng-template" id="list.html">
+        <ul data-dnd-list="list">
+            <li data-ng-repeat="item in list"
+                data-dnd-draggable="item"
+                data-dnd-effect-allowed="move"
+                data-dnd-moved="list.splice($index, 1)"
+                data-dnd-selected="kanban.selected = item"
+                data-ng-class="{selected: kanban.selected === item}"
+                data-ng-include="item.type + '.html'">
+            </li>
+        </ul>
+    </script>
+    <script type="text/ng-template" id="container.html">
+        <div class="container-element box box-blue">
+            <h3 contenteditable
+                data-ng-model="item.text"
+                data-ng-maxlength=255
+                data-ng-minlength=0
+                data-only-text="true"
+                data-ng-value="item.text"></h3>
+            <div data-ng-repeat="list in item.items" data-ng-include="'list.html'"></div>
+            <div class="clearfix"></div>
+        </div>
+    </script>
+    <script type="text/ng-template" id="item.html">
+        <div class="item" 
+            contenteditable
+            data-ng-model="item.text"
+            data-ng-maxlength=255
+            data-ng-minlength=0
+            data-only-text="true"
+            data-convert-new-lines="true"
+            data-ng-value="item.text">
+        </div>
+    </script>
+
+    <!-- Main area with dropzones and source code -->
+    <div class="col-md-10">
+        <div class="row">
+            <div data-ng-repeat="(zone, list) in kanban.dropzones">
+                <div class="dropzone box box-yellow">
+                    <!-- The dropzone also uses the list template -->
+                    <h3>{{zone}}</h3>
+                    <div data-ng-include="'list.html'"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-md-2">
+        <div class="toolbox box box-grey box-padding">
+            <h3>New Elements</h3>
+            <ul>
+                <!-- The toolbox only allows to copy objects, not move it. After a new
+                     element was created, dnd-copied is invoked and we generate the next id -->
+                <li data-ng-repeat="item in templates"
+                    data-dnd-draggable="item"
+                    data-dnd-effect-allowed="copy"
+                    data-dnd-copied="item.text = ''">
+                    <button type="button" class="btn btn-default btn-lg">{{item.name}}</button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="trashcan box box-grey box-padding">
+            <!-- If you use [] as referenced list, the dropped elements will be lost -->
+            <h3>Trashcan</h3>
+            <ul data-dnd-list="[]">
+                <li><img src="/images/trashcan.jpg" alt="Trashcan"></li>
+            </ul>
+        </div>
+    </div>
+</div>
