@@ -16,6 +16,7 @@
     </head>
     <body data-ng-app="Kanban" data-ng-cloak class="container">
         <%- partial('header') %>
+        {{toasterConfig}}
         <%- body %>
         <script src="/vendor/jquery/dist/jquery.min.js"></script>
         <script src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -30,6 +31,7 @@
         <!--SCRIPTS-->
         <script src="/js/dependencies/sails.io.js"></script>
         <script src="/js/app/module.js"></script>
+        <script src="/js/app/constants/toasterConfig.js"></script>
         <script src="/js/app/controllers/KanbanController.js"></script>
         <script src="/js/app/controllers/UserController.js"></script>
         <script src="/js/app/services/Kanban.js"></script>

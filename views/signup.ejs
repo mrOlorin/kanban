@@ -1,4 +1,4 @@
-<form data-ng-controller="UserController" data-ng-submit="submitSignupForm()" name="signup" class="form-signin">
+<form data-ng-controller="UserController" data-ng-submit="submitSignupForm()" name="signup">
     <h2 class="form-signin-heading">Create an account</h2>
     <div class="row">
         <div class="control-group form-group col-md-6"
@@ -24,7 +24,7 @@
                    name="password"
                    type="password"
                    class="form-control"
-                   placeholder="at least 6 characters"
+                   placeholder="at least 3 characters"
                    required >
             <span class="help-block has-error" data-ng-if="signup.email.$dirty">
                 <span data-ng-show="signup.password.$error.required">Password is required.</span>
@@ -34,7 +34,8 @@
     </div>
     <div class="row">
         <div class="control-group form-group col-md-6">
-            <button data-ng-disabled="signup.$invalid" class="btn btn-primary btn-lg btn-block" type="submit" >
+            <button data-ng-disabled="signup.$invalid"
+                    class="btn btn-primary btn-lg btn-block" type="submit" >
                 <span data-ng-show="!signupForm.loading">Create Account</span>
                 <span data-ng-show="signupForm.loading" 
                       class="overlord-loading-spinner fa fa-spinner"></span>

@@ -51,7 +51,7 @@
             $scope.kanbanIsLoading = true;
             var kanban = new Kanban({userId: SAILS_LOCAL.me.id, kanban: $scope.kanban});
             kanban.$save().then(function onSuccess(response) {
-                toaster.pop('success', 'Saved', 'Kanban saved.');
+                toaster.pop('success', 'Saved', 'Kanban saved.', 500);
             }).catch(function onError(sailsResponse) {
                 toaster.pop('error', 'Error', 'Unexpected error.');
                 console.error('An unexpected error occurred: ' + (sailsResponse.data || sailsResponse.status));

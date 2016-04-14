@@ -6,7 +6,8 @@
         'ngResource',
         'dndLists',
         'content-editable',
-        'toaster'
+        'toaster',
+        'ngAnimate'
     ]).config(config).run(run);
 
     config.$inject = [];

@@ -1,5 +1,5 @@
 <header>
-    <div data-toaster-container></div>
+    <div data-toaster-container toaster-options="toasterConfig"></div>
     <nav class="navbar navbar-default" role="navigation">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -20,7 +20,7 @@
                 </ul>
                 <div data-ng-controller="UserController" >
                     <% if(!req.session.me) {%>
-                    <form data-ng-submit="submitLoginForm()" class="navbar-form navbar-right">
+                    <form data-ng-submit="submitLoginForm()" name="login" class="navbar-form navbar-right">
                         <div class="form-group">
                             <input data-ng-model="loginForm.email" 
                                    name="email"
@@ -37,7 +37,7 @@
                                    placeholder="Password" 
                                    required>
                         </div>
-                        <button type="submit" class="btn btn-primary ">
+                        <button type="submit" data-ng-disabled="login.$invalid" class="btn btn-primary ">
                             <span data-ng-show="!loginForm.loading">Sign in</span>
                             <span data-ng-show="loginForm.loading" class="fa fa-spinner"></span>
                             <span data-ng-show="loginForm.loading">Signing up...</span>

@@ -11,8 +11,8 @@
             validationErrors: []
         };
         $scope.loginForm = {
-            email: 'qwe@qwe.we',
-            password: 'qweqwe',
+            email: '',
+            password: '',
             isLoading: false
         };
         $scope.logoutForm = {
