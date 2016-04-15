@@ -11,8 +11,6 @@
             validationErrors: []
         };
         $scope.loginForm = {
-            email: '',
-            password: '',
             isLoading: false
         };
         $scope.logoutForm = {
@@ -63,10 +61,6 @@
                 var emailAddressAlreadyInUse = sailsResponse.status === 409;
                 if (emailAddressAlreadyInUse) {
                     toaster.pop('error', 'Error', 'That email address has already been taken, please try again.');
-                    return;
-                } else if (sailsResponse.data.raw.code === 11000) {
-                    toaster.pop('error', 'Error', 'That email address has already been taken, please try another one.');
-                    return;
                 } else {
                     toaster.pop('error', 'Error', 'An unexpected error occurred.');
                     console.error('An unexpected error occurred: ' + (sailsResponse.data || sailsResponse.status));

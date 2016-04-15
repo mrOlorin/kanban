@@ -10,7 +10,7 @@ module.exports = {
             email: req.param('email')
         }, function userFound(err, user) {
             if (err) {
-                KanbanService.addError(err);
+                MessageService.error(req, err);
                 return res.negotiate(err);
             } else if (!user || 'undefined' === typeof user) {
                 return res.notFound();
@@ -21,11 +21,11 @@ module.exports = {
                 encryptedPassword: user.password
             }).exec({
                 error: function (err) {
-                    KanbanService.addError(err);
+                    MessageService.error(req, err);
                     return res.negotiate(err);
                 },
                 incorrect: function () {
-                    KanbanService.addError('Not found');
+                    MessageService.error(req, 'Not found');
                     return res.notFound();
                 },
                 success: function () {

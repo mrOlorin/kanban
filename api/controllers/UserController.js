@@ -16,17 +16,27 @@ module.exports = {
                 return res.negotiate(err);
             },
             success: function (encryptedPassword) {
-                User.create({
-                    email: req.param('email'),
-                    password: encryptedPassword
-                }, function userCreated(err, newUser) {
-                    if (err) {
-                        return res.negotiate(err);
+                var email = req.param('email'); 
+                User.findOne({
+                    email: email
+                }, function userFound(err, user) {
+                    if (user) {
+                        res.conflict(err);
                     } else {
-                        delete newUser.password;
-                        req.session.me = newUser;
-                        return res.json(newUser);
-                    }
+                        User.create({
+                            email: email,
+                            password: encryptedPassword
+                        }, function userCreated(err, newUser) {
+                            console.log(err);
+                            if (err) {
+                                return res.negotiate(err);
+                            } else {
+                                delete newUser.password;
+                                req.session.me = newUser;
+                                return res.json(newUser);
+                            }
+                        });
+                    };
                 });
             }
         });
